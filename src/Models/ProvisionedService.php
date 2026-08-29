@@ -6,6 +6,7 @@ namespace Liberu\Billing\Provisioning\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Liberu\Billing\Provisioning\Enums\ProvisioningState;
 
 /**
@@ -19,5 +20,10 @@ class ProvisionedService extends Model
     protected function casts(): array
     {
         return ['state' => ProvisioningState::class, 'metadata' => 'array', 'last_reconciled_at' => 'datetime'];
+    }
+
+    public function operations(): HasMany
+    {
+        return $this->hasMany(ProvisioningOperation::class, 'provisioned_service_id');
     }
 }
